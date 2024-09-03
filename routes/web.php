@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
  Route::get('/checkout', [CartController::class, 'checkout']);
  Route::get('/dashboard', [ProductController::class, 'index']);
  Route::get('/detail/{id}', [ProductController::class, 'show'])->name('products.show');
- Route::get('/dashboard/search', [ProductController::class, 'search'])->name('products.search');
+ Route::get('/search', [ProductController::class, 'search'])->name('products.search');
  Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 

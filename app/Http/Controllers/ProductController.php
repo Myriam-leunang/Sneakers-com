@@ -29,39 +29,39 @@ class ProductController extends Controller
     }
 
     public function search(Request $request)
-    {
-        $query = $request->input('query');
+{
+    $query = $request->input('query');
 
-        // Récupérer tous les produits
-        $response = $this->apiService->getProducts();
-        $products = $response['data'] ?? [];
+    // Récupérer tous les produits
+    $response = $this->apiService->getProducts();
+    $products = $response['data'] ?? [];
 
-        // Appliquer le filtre de recherche
-        $filteredProducts = array_filter($products, function ($product) use ($query) {
-            $attributes = $product['attributes'] ?? [];
+    // Appliquer le filtre de recherche
+    $filteredProducts = array_filter($products, function ($product) use ($query) {
+        $attributes = $product['attributes'] ?? [];
 
-            if (!$query) {
-                return true; // Retourne tous les produits si la recherche est vide
-            }
-
-            $searchFields = ['name', 'colorway', 'releaseDate', 'publishedAt'];
-            foreach ($searchFields as $field) {
-                if (isset($attributes[$field]) && stripos($attributes[$field], $query) !== false) {
-                    return true;
-                }
-            }
-
-            return false;
-        });
-
-        if ($request->ajax()) {
-            return response()->json([
-                'html' => view('partials.products', ['products' => array_slice($filteredProducts, 0, 12)])->render(),
-                'count' => count($filteredProducts),
-            ]);
+        if (!$query) {
+            return true; // Retourne tous les produits si la recherche est vide
         }
 
-        return view('dashboard', ['products' => array_slice($filteredProducts, 0, 12)]);
+        $searchFields = ['name', 'colorway', 'releaseDate', 'publishedAt'];
+        foreach ($searchFields as $field) {
+            if (isset($attributes[$field]) && stripos($attributes[$field], $query) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    });
+
+    if ($request->ajax()) {
+        return response()->json([
+            'html' => view('partials', ['products' => array_slice($filteredProducts, 0, 12)])->render(),
+            'count' => count($filteredProducts),
+        ]);
     }
+
+    return view('dashboard', ['products' => array_slice($filteredProducts, 0, 12)]);
+}
     
 }

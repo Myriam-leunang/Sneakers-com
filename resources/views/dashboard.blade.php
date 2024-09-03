@@ -142,8 +142,6 @@
                     <li class="list-inline-item">
                       <select class="selectpicker" data-customclass="form-control form-control-sm">
                         <option value>Filtrer par </option>
-                        <option value="default">Par défaut</option>
-                        <option value="popularity">Noms</option>
                         <option value="low-high">Prix : Faible à Elevé </option>
                         <option value="high-low">Prix : Elevé à Faible </option>
                       </select>
