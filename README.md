@@ -1,65 +1,40 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Sneakers E-commerce
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description du projet
+Ce projet est un site e-commerce dédié aux sneakers, regroupant une large gamme de modèles disponibles via une API. L'objectif est de permettre aux utilisateurs de parcourir, rechercher et acheter des sneakers directement en ligne. Le site a été développé en utilisant des technologies web courantes pour garantir une expérience utilisateur fluide et moderne.
 
-## About Laravel
+## Technologies utilisées
+### Backend :  
+PHP : utilisé pour gérer la logique serveur, les appels API, et les interactions avec la base de données.
+### Frontend :  
+HTML : utilisé pour structurer le contenu des pages web.  
+CSS : utilisé pour le style et la mise en page des pages web.  
+JavaScript : utilisé pour les interactions dynamiques et la gestion des événements côté client.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Guide d'installation
+### Prérequis
+Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
+* Un serveur web local tel que XAMPP ou WAMP.
+* PHP (au moins la version 7.4).
+* Un navigateur web (Google Chrome, Mozilla Firefox, etc.).
+* Git pour cloner le projet depuis GitHub.
+### Installation
+* Cloner le dépôt GitHub :
+  Clonez le dépôt GitHub du projet sur votre machine locale en utilisant la commande suivante "git clone https://github.com/votre-utilisateur/sneakers-ecommerce.git"
+* Déplacer les fichiers :
+  Déplacez le dossier cloné dans le répertoire racine de votre serveur web local. Par exemple, pour XAMPP, déplacez-le dans C:\xampp\htdocs\.
+* Configuration de l'API :
+  Ouvrez le fichier config.php situé dans le dossier du projet.
+  Configurez l'URL de l'API et les clés d'API si nécessaire.
+* Lancer le serveur local :
+  Démarrez votre serveur web local (Apache via XAMPP ou WAMP).
+  Assurez-vous que le module PHP est activé.
+* Accéder au site :
+  Ouvrez votre navigateur web et accédez à l'adresse suivante "http://localhost/sneakers-ecommerce"
+  Vous devriez voir la page d'accueil du site avec les différentes paires de sneakers disponibles.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# Sneakers-com
+## Fonctionnalités principales
+* Recherche de sneakers : Recherchez des paires spécifiques en utilisant la barre de recherche.
+* Filtrage par catégorie : Filtrez les sneakers par catégorie, marque, ou taille.
+* Ajout au panier : Ajoutez des sneakers au panier et procédez au paiement.
+* Connexion/Inscription : Connectez-vous ou inscrivez-vous pour une expérience utilisateur personnalisée.
