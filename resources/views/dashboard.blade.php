@@ -26,7 +26,26 @@
   <!-- Favicon-->
   <link rel="shortcut icon" href="img/favicon.png">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- Toastr CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+  <!-- Toastr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+   
+  <style>
+    /* Style pour les notifications Toastr */
+    .toast-success {
+        background-color: #dcb14a; /* Couleur de fond */
+        color: white; /* Couleur du texte */
+    }
+    .toast-error {
+        background-color: #dcb14a; /* Couleur de fond pour les erreurs */
+        color: white; /* Couleur du texte */
+    }
+    .toast-title {
+        font-weight: bold;
+    }
+</style>
 </head>
 
 <body>
@@ -57,65 +76,60 @@
           <div class="row">
             <!-- SHOP SIDEBAR-->
             <div class="col-lg-3 order-2 order-lg-1">
-              <h5 class="text-uppercase mb-4">Categories</h5>
-              <div class="py-2 px-4 bg-dark text-white mb-3"><strong class="small text-uppercase fw-bold">Boissons</strong></div>
-              <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
-                <li class="mb-2"><a class="reset-anchor" href="#!">Bissap</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Bouilli</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Jus de Tamarin</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Jus de gingembre</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Jus de goyave</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Jus de mangue</a></li>
-              </ul>
-              <div class="py-2 px-4 bg-light mb-3"><strong class="small text-uppercase fw-bold">Produits laitiers</strong></div>
-              <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
-                <li class="mb-2"><a class="reset-anchor" href="#!">Sow</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Ardo</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Fromage</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Lait</a></li>
-              </ul>
-              <div class="py-2 px-4 bg-dark text-white mb-3"><strong class="small text-uppercase fw-bold">Epices</strong></div>
-              <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal mb-5">
-                <li class="mb-2"><a class="reset-anchor" href="#!">Cannelle</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Girofle</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Cannelle</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Herbes</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Curcuma</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Cumin</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Poivre</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Piment</a></li>
+           
+                <!-- Brands -->
+                @if (!empty($brands))
+                    <h5 class="text-uppercase mb-4">Marques</h5>
+                    <div class="py-2 px-4 bg-dark text-white mb-3">
+                        <strong class="small text-uppercase fw-bold">Marques</strong>
+                    </div>
+                    <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+                        @foreach ($brands as $brand)
+                            <li class="mb-2"><a class="reset-anchor" href="#!">{{ $brand }}</a></li>
+                        @endforeach
+                    </ul>
+                @endif
 
+                <!-- Colors -->
+                @if (!empty($colors))
+                    <h5 class="text-uppercase mb-4">Couleurs</h5>
+                    <div class="py-2 px-4 bg-dark text-white mb-3">
+                        <strong class="small text-uppercase fw-bold">Couleurs</strong>
+                    </div>
+                    <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+                        @foreach ($colors as $color)
+                            <li class="mb-2"><a class="reset-anchor" href="#!">{{ $color }}</a></li>
+                        @endforeach
+                    </ul>
+                @endif
 
-              </ul>
-              <div class="py-2 px-4 bg-light mb-3"><strong class="small text-uppercase fw-bold">Céréaliers &amp; Legumineuses</strong></div>
-              <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
-                <li class="mb-2"><a class="reset-anchor" href="#!">Arachides</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Haricots</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Poids</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Lentilles</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Mil</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Maïs</a></li>
-              </ul>
-              <div class="py-2 px-4 bg-dark text-white mb-3"><strong class="small text-uppercase fw-bold">Viande &amp; Poissons </strong></div>
-              <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
-                <li class="mb-2"><a class="reset-anchor" href="#!">Volailles</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">bœufs</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Moutons</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Poissons</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Sardines &amp; Thons</a></li>
-              </ul>
-              <div class="py-2 px-4 bg-light mb-3"><strong class="small text-uppercase fw-bold">Fruits &amp; Legumes</strong></div>
-              <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
-                <li class="mb-2"><a class="reset-anchor" href="#!">Madd corrosols</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Bananes</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Papayes</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Pasteques</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Melons</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Pamplemousses</a></li>
-                <li class="mb-2"><a class="reset-anchor" href="#!">Oranges</a></li>
+                <!-- Silhouettes -->
+                @if (!empty($silhouettes))
+                    <h5 class="text-uppercase mb-4">Silhouettes</h5>
+                    <div class="py-2 px-4 bg-dark text-white mb-3">
+                        <strong class="small text-uppercase fw-bold">Silhouettes</strong>
+                    </div>
+                    <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+                        @foreach ($silhouettes as $silhouette)
+                            <li class="mb-2"><a class="reset-anchor" href="#!">{{ $silhouette }}</a></li>
+                        @endforeach
+                    </ul>
+                @endif
 
+                <!-- Genders -->
+                @if (!empty($genders))
+                    <h5 class="text-uppercase mb-4">Genres</h5>
+                    <div class="py-2 px-4 bg-dark text-white mb-3">
+                        <strong class="small text-uppercase fw-bold">Genres</strong>
+                    </div>
+                    <ul class="list-unstyled small text-muted ps-lg-4 font-weight-normal">
+                        @foreach ($genders as $gender)
+                            <li class="mb-2"><a class="reset-anchor" href="#!">{{ $gender }}</a></li>
+                        @endforeach
+                    </ul>
+                @endif
+              <h5 class="text-uppercase mb-4">DECONNEXION</h5> 
 
-              </ul>
               @if(Route::has('login'))
               @auth
               <div class="py-2 px-4">
@@ -385,9 +399,17 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Add to cart response:', data); // Débogage
-                    if (data.message) {
-                        alert(data.message); 
+                    console.log('Add to cart response:', data); 
+                    if (data.success) {
+                        toastr.success(data.message, 'Succès', {
+                            positionClass: 'toast-bottom-right', 
+                            timeOut: 3000 // Durée d'affichage de la notification
+                        });
+                    } else {
+                        toastr.error(data.message, 'Erreur', {
+                            positionClass: 'toast-bottom-right',
+                            timeOut: 3000
+                        });
                     }
                 })
                 .catch(error => console.error('Error:', error));
@@ -416,6 +438,9 @@
         });
     });
 </script>
+<!-- Inclure le script Toastr -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="{{ asset('js/front.js') }}"></script>
   </div>
   </div>
 </body>

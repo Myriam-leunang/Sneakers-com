@@ -19,6 +19,10 @@ class CartController extends Controller
 {
     $cart = Session::get('cart', []);
     $subtotal = 0;
+
+    // Calculer le nombre total d'articles dans le panier
+    $totalQuantity = array_sum(array_column($cart, 'quantity'));
+
     //dd($cart); 
     foreach ($cart as $item) {
         $subtotal += $item['price'] * $item['quantity'];
@@ -26,7 +30,9 @@ class CartController extends Controller
 
     return view('cart', [
         'cart' => $cart,
-        'subtotal' => $subtotal
+        'subtotal' => $subtotal,
+        'totalQuantity' => $totalQuantity
+
     ]);
 }
 
@@ -37,7 +43,15 @@ class CartController extends Controller
 
     public function checkout()
     {
-        return view('checkout');
+        $cart = Session::get('cart', []);
+        $subtotal = 0;
+    
+        // Calculer le nombre total d'articles dans le panier
+        $totalQuantity = array_sum(array_column($cart, 'quantity'));
+
+        return view('checkout', [    
+         'totalQuantity' => $totalQuantity
+            ]);
     }
 
     public function addToCart(Request $request)
@@ -78,7 +92,15 @@ class CartController extends Controller
     }
     Session::put('cart', $cart);
 
-    return response()->json(['message' => 'Produit ajouté au panier!']);
-}
+     // Calculez le nouveau nombre d'articles dans le panier
+     $newCartCount = array_reduce(Session::get('cart', []), function ($carry, $item) {
+        return $carry + $item['quantity'];
+    }, 0);
+
+     // Retournez une réponse JSON incluant le message
+     return response()->json([
+        'success' => true,
+        'message' => 'Produit ajouté au panier!'
+    ]);;}
  
 }
