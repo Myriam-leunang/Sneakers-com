@@ -10,6 +10,8 @@ PHP : utilisé pour gérer la logique serveur, les appels API, et les interactio
 HTML : utilisé pour structurer le contenu des pages web.  
 CSS : utilisé pour le style et la mise en page des pages web.  
 JavaScript : utilisé pour les interactions dynamiques et la gestion des événements côté client.
+### SGBD :
+MAMP : utilisé pour la gestion de la base de données et pour l'authentification, dans notre cas.
 
 ## Guide d'installation
 ### Prérequis
