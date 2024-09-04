@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="css1/custom.css">
   <!-- Favicon-->
   <link rel="shortcut icon" href="img/favicon.png">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -148,9 +150,9 @@
                     </li>
                     <li class="list-inline-item ms-3">
                     <div class="input-group">
-                    <input type="text" name="query" id="searchInput" class="form-control form-control-sm" placeholder="Recherche..." value="{{ request('query') }}">
-                    <span class="input-group-text bg-dark text-white"><i class="fas fa-search"></i></span>
-                  </div>
+                      <input type="text" name="query" id="searchInput" class="form-control form-control-sm" placeholder="Recherche..." value="{{ request('query') }}">
+                      <span class="input-group-text bg-dark text-white"><i class="fas fa-search"></i></span>
+                    </div>
                   </li>
                   </ul>
                 
@@ -178,7 +180,9 @@
                                       <center>
                                       <ul class="mb-0 list-inline">
                                         <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                                        <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="cart">Ajouter au panier</a></li>
+                                        <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark add-to-cart" data-product-id="{{ $productId }}" 
+                                          data-quantity="1" 
+                                          >Ajouter au panier</a></li>
                                         <li class="list-inline-item mr-0">
                                           <a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"
                                             data-image="{{ htmlspecialchars($image, ENT_QUOTES, 'UTF-8') }}"
@@ -316,70 +320,102 @@
       // pls don't forget to change to your domain :)
       injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg');
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var modalImage = document.getElementById('modalImage');
-    var modalName = document.getElementById('modalName');
-    var modalPrice = document.getElementById('modalPrice');
-    var modalDescription = document.getElementById('modalDescription');
-    var modalRating = document.getElementById('modalRating');
+      //modal de details d'un produit 
+        document.addEventListener('DOMContentLoaded', function () {
+          var modalImage = document.getElementById('modalImage');
+          var modalName = document.getElementById('modalName');
+          var modalPrice = document.getElementById('modalPrice');
+          var modalDescription = document.getElementById('modalDescription');
+          var modalRating = document.getElementById('modalRating');
 
-    document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (element) {
-      element.addEventListener('click', function () {
-        // Lire les valeurs des attributs data- du bouton cliqué
-        var image = element.getAttribute('data-image');
-        var name = element.getAttribute('data-name');
-        var price = element.getAttribute('data-price');
-        var description = element.getAttribute('data-description');
-        var rating = parseInt(element.getAttribute('data-rating'));
+          document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (element) {
+            element.addEventListener('click', function () {
+              // Lire les valeurs des attributs data- du bouton cliqué
+              var image = element.getAttribute('data-image');
+              var name = element.getAttribute('data-name');
+              var price = element.getAttribute('data-price');
+              var description = element.getAttribute('data-description');
+              var rating = parseInt(element.getAttribute('data-rating'));
 
-        // Mettre à jour le contenu du modal
-        modalImage.href = image;
-        modalImage.style.backgroundImage = 'url(' + image + ')';
-        modalName.textContent = name;
-        modalPrice.textContent = price;
-        modalDescription.textContent = description;
+              // Mettre à jour le contenu du modal
+              modalImage.href = image;
+              modalImage.style.backgroundImage = 'url(' + image + ')';
+              modalName.textContent = name;
+              modalPrice.textContent = price;
+              modalDescription.textContent = description;
 
-        // Mettre à jour les étoiles de la note
-        modalRating.innerHTML = '';
-        modalPrice.textContent = price + ' €';
-        for (var i = 0; i < rating; i++) {
-          var star = document.createElement('li');
-          star.classList.add('list-inline-item');
-          star.innerHTML = '<i class="fas fa-star text-warning"></i>';
-          modalRating.appendChild(star);
-        }
-      });
-    });
-  });
-</script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              // Mettre à jour les étoiles de la note
+              modalRating.innerHTML = '';
+              modalPrice.textContent = price + ' €';
+              for (var i = 0; i < rating; i++) {
+                var star = document.createElement('li');
+                star.classList.add('list-inline-item');
+                star.innerHTML = '<i class="fas fa-star text-warning"></i>';
+                modalRating.appendChild(star);
+              }
+            });
+          });
+        });
+        </script>
+      
         <script>
-    $(document).ready(function () {
-    // Déclenchement de la recherche dès que l'utilisateur tape dans le champ de recherche
-    $('#searchInput').on('input', function () {
-        var query = $(this).val();
+    document.addEventListener('DOMContentLoaded', function () {
+        // Script d'ajout au panier
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
-        $.ajax({
-            url: '{{ route("products.search") }}', // L'URL à laquelle la requête doit être envoyée
-            method: 'GET',
-            data: {
-                query: query // Les données à envoyer, ici la valeur de l'input de recherche
-            },
-            success: function (response) {
-                // Met à jour le conteneur des produits avec le HTML renvoyé par le serveur
-                $('#productContainer').html(response.html);
-            },
-            error: function () {
-                console.error('Erreur lors de la recherche.');
-            }
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                console.log('Add to cart button clicked'); // Débogage
+                const productId = this.getAttribute('data-product-id');
+                const quantity = this.getAttribute('data-quantity');
+
+                fetch('{{ route('cart.add') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        quantity: quantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Add to cart response:', data); // Débogage
+                    if (data.message) {
+                        alert(data.message); 
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+
+        // Script de recherche
+        $('#searchInput').on('input', function () {
+            var query = $(this).val();
+            console.log('Search input:', query); // Débogage
+
+            $.ajax({
+                url: '{{ route("products.search") }}',
+                method: 'GET',
+                data: {
+                    query: query
+                },
+                success: function (response) {
+                    console.log('Search response:', response); // Débogage
+                    $('#productContainer').html(response.html);
+                },
+                error: function () {
+                    console.error('Erreur lors de la recherche.');
+                }
+            });
         });
     });
-});
-
 </script>
-    <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </div>
   </div>
 </body>

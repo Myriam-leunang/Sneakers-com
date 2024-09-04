@@ -63,5 +63,4 @@ class ProductController extends Controller
 
     return view('dashboard', ['products' => array_slice($filteredProducts, 0, 12)]);
 }
-    
 }

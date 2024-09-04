@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="css1/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
   <body>
     <div class="page-holder">
@@ -96,84 +97,78 @@
                 <table class="table text-nowrap">
                   <thead class="bg-light">
                     <tr>
-                      <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Product</strong></th>
-                      <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Price</strong></th>
-                      <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Quantity</strong></th>
+                      <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Produit</strong></th>                      
+                      <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Nom</strong></th>
+                      <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Prix</strong></th>
+                      <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Quantité</strong></th>
                       <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase">Total</strong></th>
                       <th class="border-0 p-3" scope="col"> <strong class="text-sm text-uppercase"></strong></th>
                     </tr>
                   </thead>
 
                   <tbody class="border-0">
-                    <tr>
-                      <th class="ps-0 py-3 border-light" scope="row">
-                        <div class="d-flex align-items-center"><a class="reset-anchor d-block animsition-link" href="detail.html"><img src="img/viande.png" alt="..." width="70"/></a>
-                          <div class="ms-3"><strong class="h6"><a class="reset-anchor animsition-link" href="detail.html">Viande Hachée</a></strong></div>
-                        </div>
-                      </th>
-                      <td class="p-3 align-middle border-light">
-                        <p class="mb-0 small">3000 Fc</p>
-                      </td>
-                      <td class="p-3 align-middle border-light">
-                        <div class="border d-flex align-items-center justify-content-between px-3"><span class="small text-uppercase text-gray headings-font-family">Quantité</span>
-                          <div class="quantity">
-                            <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
-                            <input class="form-control form-control-sm border-0 shadow-0 p-0" type="text" value="1"/>
-                            <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-3 align-middle border-light">
-                        <p class="mb-0 small">3000 Fc</p>
-                      </td>
-                      <td class="p-3 align-middle border-light"><a class="reset-anchor" href="#!"><i class="fas fa-trash-alt small text-muted"></i></a></td>
-                    </tr>
-                    <tr>
-                      <th class="ps-0 py-3 border-0" scope="row">
-                        <div class="d-flex align-items-center"><a class="reset-anchor d-block animsition-link" href="detail.html"><img src="img/bissap.png" alt="..." width="70"/></a>
-                          <div class="ms-3"><strong class="h6"><a class="reset-anchor animsition-link" href="detail.html">Bissap</a></strong></div>
-                        </div>
-                      </th>
-                      <td class="p-3 align-middle border-0">
-                        <p class="mb-0 small">500 Fc</p>
-                      </td>
-                      <td class="p-3 align-middle border-0">
-                        <div class="border d-flex align-items-center justify-content-between px-3"><span class="small text-uppercase text-gray headings-font-family">Quantité</span>
-                          <div class="quantity">
-                            <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
-                            <input class="form-control form-control-sm border-0 shadow-0 p-0" type="text" value="1"/>
-                            <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-3 align-middle border-0">
-                        <p class="mb-0 small">500 Fc</p>
-                      </td>
-                      <td class="p-3 align-middle border-0"><a class="reset-anchor" href="#!"><i class="fas fa-trash-alt small text-muted"></i></a></td>
-                    </tr>
-                  </tbody>
+    @if(isset($cart) && is_array($cart))
+        @foreach($cart as $productId => $item)
+            @php
+            $image = $item['image'] ?? 'default_image.jpg';
+            $id = $item['id'] ?? $productId; // Utilisez $productId si 'id' est manquant
+            @endphp
+            <tr>
+                <th class="ps-0 py-3 border-light" scope="row">
+                    <div class="d-flex align-items-center">
+                        <a class="reset-anchor d-block animsition-link" href="{{ route('products.show', ['id' => $id]) }}">
+                        <img src="{{ htmlspecialchars($image, ENT_QUOTES, 'UTF-8') }}" class="card-img-top" style="width: 80%;">
+                        </a>
+                    </div>
+                </th>
+                <td class="p-3 align-middle border-light">
+                <a class="reset-anchor animsition-link" href="{{ route('products.show', ['id' => $id]) }}" style="display: block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $item['name'] }}</a>
+                </td>
+                <td class="p-3 align-middle border-light">
+                    <p class="mb-0 small">{{ $item['price'] }} €</p>
+                </td>
+                <td class="p-3 align-middle border-light">
+                                                    <div class="border d-flex align-items-center justify-content-between px-3">
+                                                        <span class="small text-uppercase text-gray headings-font-family">Quantité</span>
+                                                        <div class="quantity">
+                                                            <button class="dec-btn p-0" onclick="updateQuantity('{{ $productId }}', -1)"><i class="fas fa-caret-left"></i></button>
+                                                            <input class="form-control form-control-sm border-0 shadow-0 p-0 quantity-input" type="text" value="{{ $item['quantity'] }}" data-price="{{ $item['price'] }}" readonly/>
+                                                            <button class="inc-btn p-0" onclick="updateQuantity('{{ $productId }}', 1)"><i class="fas fa-caret-right"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                <td class="p-3 align-middle border-light">
+                    <p class="mb-0 small">{{ $item['price'] * $item['quantity'] }} €</p>
+                </td>
+                <td class="p-3 align-middle border-light"><a class="reset-anchor" href="#!"><i class="fas fa-trash-can small text-muted"></i></a></td>
+            </tr>
+        @endforeach
+    @else
+        <tr>
+            <td colspan="5" class="text-center">Votre panier est vide</td>
+        </tr>
+    @endif
+</tbody>
                 </table>
               </div>
-
               <!-- CART NAV-->
               <div class="bg-light px-4 py-3">
                 <div class="row align-items-center text-center">
-                  <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm" href="dashboard"><i class="fas fa-long-arrow-alt-left me-2"> </i>Continuer les achats</a></div>
+                  <div class="col-md-6 mb-3 mb-md-0 text-md-start"><a class="btn btn-link p-0 text-dark btn-sm" href="dashboard"><i class="fas fa-long-arrow-alt-left me-2"></i>Continuer les achats</a></div>
                   <div class="col-md-6 text-md-end"><a class="btn btn-outline-dark btn-sm" href="checkout">Procéder au paiement<i class="fas fa-long-arrow-alt-right ms-2"></i></a></div>
                 </div>
               </div>
             </div>
-
-
             <!-- ORDER TOTAL-->
             <div class="col-lg-4">
               <div class="card border-0 rounded-0 p-lg-4 bg-light">
                 <div class="card-body">
-                  <h5 class="text-uppercase mb-4">Cart total</h5>
+                  <h5 class="text-uppercase mb-4">Somme totale du panier</h5>
                   <ul class="list-unstyled mb-0">
-                    <li class="d-flex align-items-center justify-content-between"><strong class="text-uppercase small font-weight-bold">Somme Totale</strong><span class="text-muted small">3500 Fc</span></li>
+                    <li class="d-flex align-items-center justify-content-between"><strong class="small fw-bold">Sous-total</strong><span class="text-muted small">{{ $subtotal }} €</span></li>
                     <li class="border-bottom my-2"></li>
-                    <li class="d-flex align-items-center justify-content-between mb-4"><strong class="text-uppercase small font-weight-bold">Total</strong><span>3500 Fc</span></li>
+                    <li class="d-flex align-items-center justify-content-between"><strong class="text-uppercase small fw-bold">Total</strong><span>{{ $subtotal }} €</span></li>
+                    <br>
                     <li>
                       <form action="#">
                         <div class="input-group mb-0">
@@ -182,6 +177,10 @@
                         </div>
                       </form>
                     </li>
+                    <br>
+                    <li>
+                          <button class="btn btn-dark btn-sm w-100" type="submit" href="checkout"><i class="fas fa-credit-card me-2"></i>Procéder au paiement</button>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -189,41 +188,92 @@
           </div>
         </section>
       </div>
-      @include('footer')
-      <!-- JavaScript files-->
-      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-      <script src="vendor/glightbox/js/glightbox.min.js"></script>
-      <script src="vendor/nouislider/nouislider.min.js"></script>
-      <script src="vendor/swiper/swiper-bundle.min.js"></script>
-      <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
-      <script src="js1/front.js"></script>
-      <script>
-        // ------------------------------------------------------- //
-        //   Inject SVG Sprite - 
-        //   see more here 
-        //   https://css-tricks.com/ajaxing-svg-sprite/
-        // ------------------------------------------------------ //
-        function injectSvgSprite(path) {
-        
-            var ajax = new XMLHttpRequest();
-            ajax.open("GET", path, true);
-            ajax.send();
-            ajax.onload = function(e) {
-            var div = document.createElement("div");
-            div.className = 'd-none';
-            div.innerHTML = ajax.responseText;
-            document.body.insertBefore(div, document.body.childNodes[0]);
-            }
-        }
-        // this is set to BootstrapTemple website as you cannot 
-        // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
-        // while using file:// protocol
-        // pls don't forget to change to your domain :)
-        injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
-        
-      </script>
-      <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     </div>
+    <!-- JavaScript files-->
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="vendor/nouislider/nouislider.min.js"></script>
+    <script src="vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="js/front.js"></script>
+    <!-- Nouislider Config-->
+    <script>
+      var range = document.getElementById('range');
+      noUiSlider.create(range, {
+        range: {
+          min: 0,
+          max: 2000,
+        },
+        start: [500, 1500],
+        connect: true,
+        step: 1,
+        tooltips: [true, true],
+        format: {
+          to: function (value) {
+            return value + ' €';
+          },
+          from: function (value) {
+            return value.replace(' €', '');
+          }
+        }
+      });
+    </script>
+    <!-- Nouislider Config-->
+    <script>
+        var range = document.getElementById('range');
+        noUiSlider.create(range, {
+            range: {
+                min: 0,
+                max: 2000,
+            },
+            start: [500, 1500],
+            connect: true,
+            step: 1,
+            tooltips: [true, true],
+            format: {
+                to: function (value) {
+                    return value + ' €';
+                },
+                from: function (value) {
+                    return value.replace(' €', '');
+                }
+            }
+        });
+
+        function updateQuantity(productId, change) {
+            const row = document.querySelector(`tr[data-product-id="${productId}"]`);
+            const quantityInput = row.querySelector('.quantity-input');
+            const price = parseFloat(quantityInput.getAttribute('data-price'));
+            let quantity = parseInt(quantityInput.value);
+
+            quantity += change;
+
+            if (quantity < 1) {
+                quantity = 1;
+            }
+
+            quantityInput.value = quantity;
+            const totalPrice = row.querySelector('.total-price');
+            totalPrice.textContent = (price * quantity) + ' €';
+
+            updateSubtotal();
+        }
+
+        function removeItem(productId) {
+            const row = document.querySelector(`tr[data-product-id="${productId}"]`);
+            row.remove();
+            updateSubtotal();
+        }
+
+        function updateSubtotal() {
+            let subtotal = 0;
+            document.querySelectorAll('.total-price').forEach(priceElement => {
+                subtotal += parseFloat(priceElement.textContent.replace(' €', ''));
+            });
+
+            document.getElementById('subtotal').textContent = subtotal + ' €';
+            document.getElementById('total').textContent = subtotal + ' €';
+        }
+    </script>
   </body>
 </html>
