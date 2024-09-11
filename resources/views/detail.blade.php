@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="css1/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    
 </head>
 <body>
     <div class="page-holder bg-light">
@@ -32,7 +34,6 @@
         @include('header')
         <!-- Modal -->
     <!-- Modal -->
-  
         <section class="py-5">
             <div class="container">
                 <div class="row mb-5">
@@ -75,11 +76,13 @@
                     <!-- PRODUCT DETAILS-->
                     <div class="col-lg-6">
                         <ul class="list-inline mb-2 text-sm">
+                         @if(isset($product['attributes']['rating']))
                             @for($i = 1; $i <= 5; $i++)
                                 <li class="list-inline-item m-0">
-                                    <i class="fas fa-star {{ $i <= ($product['attributes']['rating'] ?? 0) ? 'text-warning' : 'text-muted' }}"></i>
+                                    <i class="fas fa-star {{ $i <= $product['attributes']['rating'] ? 'text-warning' : 'text-muted' }}"></i>
                                 </li>
                             @endfor
+                        @endif
                         </ul>
                         <h1>{{ htmlspecialchars($product['attributes']['name'] ?? 'Nom du produit', ENT_QUOTES, 'UTF-8') }}</h1>
                         <p class="text-muted lead">{{ htmlspecialchars($product['attributes']['retailPrice'] ?? '0.00', ENT_QUOTES, 'UTF-8') }} €</p>
@@ -90,13 +93,26 @@
                                     <span class="small text-uppercase text-gray mr-4 no-select">Quantité</span>
                                     <div class="quantity">
                                         <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
-                                        <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
-                                        <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
+                                        @isset($product)
+                                        @php
+                                            $productId = $product['id'] ?? 'default-id'; // Valeur par défaut
+                                            $quantity = 1; // Valeur par défaut pour éviter les erreurs
+                                        @endphp
+                                        <input class="form-control border-0 shadow-0 p-0" type="text" id="quantity-{{ $productId }}" value="{{ $quantity }}">
+                                    @else
+                                        <p>Produit non disponible.</p>
+                                    @endisset                             
+                                               <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-3 pl-sm-0">
-                                <a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="{{ route('cart.add', ['id' => $product['id'] ?? 0]) }}">Ajouter au panier</a>
+                                @php
+                                    $productId = $product['id'] ?? 'default-id'; // Valeur par défaut
+                                @endphp
+                                <a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0 add-to-cart" 
+                                data-product-id="{{ $productId }}" 
+                                href="javascript:void(0);">Ajouter au panier</a>
                             </div>
                         </div>
                         <a class="text-dark p-0 mb-4 d-inline-block" href="#!"><i class="far fa-heart me-2"></i>Ajouter aux favoris</a><br>
@@ -177,8 +193,66 @@
             }
             injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
         </script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM fully loaded and parsed');
+    
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            console.log('Add to cart button clicked');
+
+            const productId = this.getAttribute('data-product-id');
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            let quantity = parseInt(quantityInput.value); // S'assurer que la quantité est bien un nombre
+
+            if (isNaN(quantity) || quantity < 1) {
+                quantity = 1; // Valeur par défaut si la quantité est invalide
+            }
+
+            fetch('{{ route('cart.add') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    quantity: quantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                        console.log('Add to cart response:', data);
+                        if (data.success) {
+                toastr.success(data.message, 'Succès', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 3000
+                });
+            } else {
+                toastr.error(data.message, 'Erreur', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 3000
+                });
+            }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                toastr.error('Une erreur est survenue.', 'Erreur', {
+                    positionClass: 'toast-bottom-right',
+                    timeOut: 3000
+                });
+            });
+        });
+    });
+});
+ </script>
         <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"><!-- Inclure le script Toastr -->
+        <!-- Toastr JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="{{ asset('js/front.js') }}"></script>
     </div>
 </body>
 </html>

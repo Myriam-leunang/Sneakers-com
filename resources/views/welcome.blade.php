@@ -31,58 +31,13 @@
     <div class="page-holder">
         <!-- navbar-->
         @include('header')
-        <!--  Modal -->
-        <div class="modal fade" id="productView" tabindex="-1">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content overflow-hidden border-0">
-                    <button class="btn-close p-4 position-absolute top-0 end-0 z-index-20 shadow-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div class="modal-body p-0">
-                        <div class="row align-items-stretch">
-                            <div class="col-lg-6 p-lg-0">
-                            <a class="glightbox product-view d-block h-100 bg-cover bg-center" 
-                            style="background: url(img/product-5.jpg)" 
-                            href="img/product-5.jpg" data-gallery="gallery1" data-glightbox="Red digital smartwatch"></a>
-                            <a class="glightbox d-none" href="img/product-5-alt-1.jpg" data-gallery="gallery1" data-glightbox="Red digital smartwatch"></a>
-                            <a class="glightbox d-none" href="img/product-5-alt-2.jpg" data-gallery="gallery1" data-glightbox="Red digital smartwatch"></a>
-                        </div>
-                            <div class="col-lg-6">
-                                <div class="p-4 my-md-4">
-                                    <ul class="list-inline mb-2">
-                                        <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
-                                        <li class="list-inline-item m-0 1"><i class="fas fa-star small text-warning"></i></li>
-                                        <li class="list-inline-item m-0 2"><i class="fas fa-star small text-warning"></i></li>
-                                        <li class="list-inline-item m-0 3"><i class="fas fa-star small text-warning"></i></li>
-                                        <li class="list-inline-item m-0 4"><i class="fas fa-star small text-warning"></i></li>
-                                    </ul>
-                                    <h2 class="h4">Red digital smartwatch</h2>
-                                    <p class="text-muted">$250</p>
-                                    <p class="text-sm mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.</p>
-                                    <div class="row align-items-stretch mb-4 gx-0">
-                                        <div class="col-sm-7">
-                                            <div class="border d-flex align-items-center justify-content-between py-1 px-3"><span class="small text-uppercase text-gray mr-4 no-select">Quantity</span>
-                                                <div class="quantity">
-                                                    <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
-                                                    <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
-                                                    <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5"><a class="btn btn-dark btn-sm w-100 h-100 d-flex align-items-center justify-content-center px-0" href="cart.html">Add to cart</a></div>
-                                    </div><a class="btn btn-link text-dark text-decoration-none p-0" href="#!"><i class="far fa-heart me-2"></i>Add to wish list</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- HERO SECTION-->
         <div class="container">
-            <section class="hero pb-3 bg-cover bg-center d-flex align-items-center" style="background: url(img/six.webp)">
+            <section class="hero pb-3 bg-cover bg-center d-flex align-items-center" style="background: url(img/cinq.png)">
                 <div class="container py-5">
                     <div class="row px-4 px-lg-5">
                         <div class="col-lg-6">
-                            <p class="text-muted small text-uppercase mb-2">SNEAKERS, VOTRE MAGASIN EN LIGNE </p>
+                            <p class="text-muted small text-uppercase mb-2">SHOEZER, VOTRE MAGASIN EN LIGNE </p>
                             <h1 class="h2 text-uppercase mb-3">100% QUALITÉ <br> & FIABILITÉ</h1>
                             @if (Route::has('login'))
                                     @auth
@@ -102,31 +57,31 @@
             <!-- CATEGORIES SECTION-->
             <section class="pt-5">
                 <header class="text-center">
-                    <p class="small text-muted small text-uppercase mb-1">COLLECTIONS SOIGNEUSEMENT CRÉÉES</p>
+                    <p class="small text-muted small text-uppercase mb-1">COLLECTIONS SHOEZER</p>
                     <h2 class="h5 text-uppercase mb-4">PARCOUREZ NOS CATÉGORIES</h2>
                 </header>
                 <div class="row">
                     <div class="col-md-4"><a class="category-item" href="dashboard">
-                    <img class="img-fluid" src="img/bissaps.png" alt="" />
-                    <strong class="category-item-title">Boissons</strong></a>
+                    <img class="img-fluid" src="img/sn1.jpg" alt="" />
+                    <strong class="category-item-title">Nike</strong></a>
                     <br>
                     <a class="category-item" href="dashboard">
-                    <img class="img-fluid" src="img/beurre.png" alt="" />
-                    <strong class="category-item-title">Produits laitiers</strong>
+                    <img class="img-fluid" src="img/sn2.jpg" alt="" />
+                    <strong class="category-item-title">Adidas</strong>
                     </a>
                     </div>
                     <div class="col-md-4"><a class="category-item mb-4" href="dashboard">
-                    <img class="img-fluid" src="img/epice.png" alt="" /><strong class="category-item-title">Epices</strong></a>
+                    <img class="img-fluid" src="img/sn3.jpg" alt="" /><strong class="category-item-title">Reebok</strong></a>
                     <a class="category-item" href="dashboard">
-                    <img class="img-fluid" src="img/noix.jpg" alt="" />
-                    <strong class="category-item-title">Céréaliers & Legumineuses</strong>
+                    <img class="img-fluid" src="img/sn4.jpg" alt="" />
+                    <strong class="category-item-title">Puma</strong>
                     </a>
                     </div>
-                    <div class="col-md-4"><a class="category-item" href="dashboard"><img class="img-fluid" src="img/viandes.png" alt="" /><strong class="category-item-title">Viande & Poissons</strong></a>
+                    <div class="col-md-4"><a class="category-item" href="dashboard"><img class="img-fluid" src="img/sn5.jpg" alt="" /><strong class="category-item-title">New Balance</strong></a>
                     <br>
                     <a class="category-item" href="dashboard">
-                    <img class="img-fluid" src="img/avocat.png" alt="" />
-                    <strong class="category-item-title">Fruits & légumes</strong></a>
+                    <img class="img-fluid" src="img/sn6.png" alt="" />
+                    <strong class="category-item-title">Converse</strong></a>
                     </div>
                 </div>
             </section>
@@ -144,7 +99,7 @@
                                     </svg>
                                     <div class="text-start ms-3">
                                         <h6 class="text-uppercase mb-1">LIVRAISON GRATUITE</h6>
-                                        <p class="text-sm mb-0 text-muted">Livraison gratuite au Sénégal</p>
+                                        <p class="text-sm mb-0 text-muted">Livraison gratuite à Paris</p>
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +112,7 @@
                                     </svg>
                                     <div class="text-start ms-3">
                                         <h6 class="text-uppercase mb-1">24 x 7 service</h6>
-                                        <p class="text-sm mb-0 text-muted">Livraison gratuite au Sénegal</p>
+                                        <p class="text-sm mb-0 text-muted">Livraison gratuite à Paris</p>
                                     </div>
                                 </div>
                             </div>

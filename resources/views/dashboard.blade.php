@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Boutique | Ecommerce Sneakers</title>
+  <title>Boutique | Ecommerce SHOEZER</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="all,follow">
@@ -45,7 +44,77 @@
     .toast-title {
         font-weight: bold;
     }
+.popup {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    width: 300px;
+}
+
+.popup-content .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.popup-content .close:hover {
+    color: #ff0000;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#claim-offer {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #e5c700; 
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px; 
+}
+
+#claim-offer:hover {
+    background-color: #e5c700; 
+}
+
+#close-popup {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: black; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#close-popup:hover {
+    background-color: #333333; 
+}
 </style>
+
 </head>
 
 <body>
@@ -135,7 +204,10 @@
               <div class="py-2 px-4">
                 <form method="POST" action="{{ route('logout') }}">
                   @csrf
-                  <x-button class="nav-link" href="logout">Deconnexion
+                  <x-button class="py-2 px-4 bg-dark text-white mb-3" href="logout">
+                  <strong class="small text-uppercase fw-bold">
+                    Deconnexion
+                    </strong>
                   </x-button>
                 </form>
               </div>
@@ -174,49 +246,57 @@
               </div> 
           </div>        
 
-              <div class="row" id="productContainer">
-                  @if(isset($products['data']) && is_array($products['data']))
-                      @foreach ($products['data'] as $product)
-                          @php
-                              $attributes = $product['attributes'];
-                              $image = isset($attributes['image']['original']) ? $attributes['image']['original'] : 'default_image.jpg';
-                              $productId = isset($product['id']) ? $product['id'] : null; 
-                          @endphp
-                          <div class="col-md-4">
-                              <div class="card mb-4">
-                              <a href="{{ route('products.show', ['id' => $product['id']]) }}">
-                                  <img src="{{ htmlspecialchars($image, ENT_QUOTES, 'UTF-8') }}" class="card-img-top" alt="{{ htmlspecialchars($attributes['name'], ENT_QUOTES, 'UTF-8') }}">
-                                  </a>
-                                  <div class="card-body">
-                                      <h5 class="card-title">{{ htmlspecialchars($attributes['name'], ENT_QUOTES, 'UTF-8') }}</h5>
-                                      <p class="card-text"><strong>Prix:</strong> {{ htmlspecialchars($attributes['retailPrice'], ENT_QUOTES, 'UTF-8') }} €</p>
-                                      <!-- Buttons -->
-                                      <center>
-                                      <ul class="mb-0 list-inline">
-                                        <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                                        <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark add-to-cart" data-product-id="{{ $productId }}" 
-                                          data-quantity="1" 
-                                          >Ajouter au panier</a></li>
-                                        <li class="list-inline-item mr-0">
-                                          <a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"
-                                            data-image="{{ htmlspecialchars($image, ENT_QUOTES, 'UTF-8') }}"
-                                            data-name="{{ htmlspecialchars($attributes['name'], ENT_QUOTES, 'UTF-8') }}"
-                                            data-price="{{ htmlspecialchars($attributes['retailPrice'], ENT_QUOTES, 'UTF-8') }}"
-                                            data-description="{{ htmlspecialchars($attributes['description'] ?? 'Description pas disponible', ENT_QUOTES, 'UTF-8') }}"
-                                            data-rating="{{ $attributes['rating'] ?? 0 }}">
-                                            <i class="fas fa-expand"></i>
+          <div class="row" id="productContainer">
+          @if(isset($products) && is_array($products))
+              @foreach ($products as $product)
+                  @php
+                      $attributes = $product['attributes'] ?? [];
+                      $image = isset($attributes['image']['original']) ? $attributes['image']['original'] : 'default_image.jpg';
+                      $productId = $product['id'] ?? null;
+                  @endphp
+                  <div class="col-md-4">
+                      <div class="card mb-4">
+                          <a href="{{ route('products.show', ['id' => $productId]) }}">
+                              <img src="{{ htmlspecialchars($image, ENT_QUOTES, 'UTF-8') }}" class="card-img-top" alt="{{ htmlspecialchars($attributes['name'] ?? 'Nom indisponible', ENT_QUOTES, 'UTF-8') }}">
+                          </a>
+                          <div class="card-body">
+                              <h5 class="card-title">{{ htmlspecialchars($attributes['silhouette'] ?? 'Nom indisponible', ENT_QUOTES, 'UTF-8') }}</h5>
+                              <p class="card-text">
+                                  <strong>Prix:</strong> {{ htmlspecialchars($attributes['retailPrice'] ?? 'Prix non disponible', ENT_QUOTES, 'UTF-8') }} €
+                              </p>
+                              <center>
+                                  <ul class="mb-0 list-inline">
+                                      <li class="list-inline-item m-0 p-0">
+                                          <a class="btn btn-sm btn-outline-dark" href="#!">
+                                              <i class="far fa-heart"></i>
                                           </a>
-                                        </li>
-                                        </ul>
-                                      </center>
-                                    </div>
-                              </div>
+                                      </li>
+                                      <li class="list-inline-item m-0 p-0">
+                                          <a class="btn btn-sm btn-dark add-to-cart" data-product-id="{{ $productId }}" data-quantity="1">
+                                              Ajouter au panier
+                                          </a>
+                                      </li>
+                                      <li class="list-inline-item mr-0">
+                                          <a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"
+                                              data-image="{{ htmlspecialchars($image, ENT_QUOTES, 'UTF-8') }}"
+                                              data-name="{{ htmlspecialchars($attributes['name'] ?? 'Nom indisponible', ENT_QUOTES, 'UTF-8') }}"
+                                              data-price="{{ htmlspecialchars($attributes['retailPrice'] ?? 'Prix non disponible', ENT_QUOTES, 'UTF-8') }}"
+                                              data-description="{{ htmlspecialchars($attributes['description'] ?? 'Description pas disponible', ENT_QUOTES, 'UTF-8') }}"
+                                              data-rating="{{ $attributes['rating'] ?? 0 }}">
+                                              <i class="fas fa-expand"></i>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </center>
                           </div>
-                      @endforeach
-                  @else
-                      <p>Aucun produit disponible.</p>
-                  @endif
-               </div>
+                      </div>
+                  </div>
+              @endforeach
+          @else
+              <p>Aucun produit disponible pour le moment.</p>
+          @endif
+      </div>
+
                <!-- Modal -->
               <div class="modal fade" id="productView" tabindex="-1" aria-labelledby="productViewLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -260,16 +340,48 @@
                 </div>
               </div>
 
+              <!-- Pop-up HTML -->
+              <div class="popup" id="promo-popup">
+                  <div class="popup-content">
+                      <!-- Icône de fermeture en haut à droite -->
+                      <span class="close">&times;</span>
+                      <h5>Promotion Spéciale !</h5>
+                      <p>Profitez de 30% de réduction sur votre premier achat avec le code <strong>PROMO30</strong> !</p>
+                      <p>Offre valable jusqu'au 30 septembre 2024.</p>
+                      <!-- Conteneur pour les boutons -->
+                      <div class="button-container">
+                          <button id="claim-offer">Profiter</button>
+                          <button id="close-popup">Fermer</button>
+                      </div>
+                  </div>
+              </div>
+
               <!-- PAGINATION-->
               <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center justify-content-lg-end">
-                  <li class="page-item mx-1"><a class="page-link" href="#!" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                  <li class="page-item mx-1 active"><a class="page-link" href="#!">1</a></li>
-                  <li class="page-item mx-1"><a class="page-link" href="#!">2</a></li>
-                  <li class="page-item mx-1"><a class="page-link" href="#!">3</a></li>
-                  <li class="page-item ms-1"><a class="page-link" href="#!" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                </ul>
-              </nav>
+    <ul class="pagination justify-content-center justify-content-lg-end">
+        <!-- Bouton Précédent -->
+        <li class="page-item mx-1 {{ $currentPage == 1 ? 'disabled' : '' }}">
+            <a class="page-link" href="{{ $currentPage > 1 ? route('products.index', ['page' => $currentPage - 1]) : '#!' }}" aria-label="Previous">
+                <span aria-hidden="true">«</span>
+            </a>
+        </li>
+
+        <!-- Pages -->
+        @for ($i = 1; $i <= $totalPages; $i++)
+            <li class="page-item mx-1 {{ $currentPage == $i ? 'active' : '' }}">
+                <a class="page-link" href="{{ route('products.index', ['page' => $i]) }}">{{ $i }}</a>
+            </li>
+        @endfor
+
+        <!-- Bouton Suivant -->
+        <li class="page-item ms-1 {{ $currentPage == $totalPages ? 'disabled' : '' }}">
+            <a class="page-link" href="{{ $currentPage < $totalPages ? route('products.index', ['page' => $currentPage + 1]) : '#!' }}" aria-label="Next">
+                <span aria-hidden="true">»</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
             </div>
           </div>
         </div>
@@ -278,12 +390,14 @@
     @include('footer')
 
     <!-- JavaScript files-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/glightbox/js/glightbox.min.js"></script>
     <script src="vendor/nouislider/nouislider.min.js"></script>
     <script src="vendor/swiper/swiper-bundle.min.js"></script>
     <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="js1/front.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Nouislider Config-->
     <script>
       var range = document.getElementById('range');
@@ -437,10 +551,48 @@
             });
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    // Vérifier si l'utilisateur a déjà vu le pop-up
+    var hasSeenPopup = sessionStorage.getItem('hasSeenPromoPopup');
+
+    // Debug: Afficher dans la console si l'utilisateur a vu le pop-up
+    console.log('hasSeenPromoPopup:', hasSeenPopup);
+
+    // Si l'utilisateur n'a pas vu le pop-up, l'afficher après 2 secondes
+    if (!hasSeenPopup || hasSeenPopup === 'false') {
+        setTimeout(function () {
+            document.getElementById('promo-popup').style.display = 'flex';
+        }, 2000);
+
+        // Stocker l'information dans le sessionStorage pour ne plus afficher le pop-up
+        sessionStorage.setItem('hasSeenPromoPopup', 'true');
+        console.log('Pop-up affiché et hasSeenPromoPopup mis à jour');
+    } else {
+        console.log('Pop-up déjà vu, pas d\'affichage');
+    }
+
+    // Gérer la fermeture du pop-up avec le bouton "Fermer"
+    document.getElementById('close-popup').addEventListener('click', function () {
+        document.getElementById('promo-popup').style.display = 'none';
+    });
+
+    // Gérer la fermeture du pop-up avec l'icône de fermeture
+    document.querySelector('.popup .close').addEventListener('click', function () {
+        document.getElementById('promo-popup').style.display = 'none';
+    });
+
+    // Gérer le bouton "Profiter"
+    document.getElementById('claim-offer').addEventListener('click', function() {
+        toastr.success('Vous avez choisi de profiter de la promotion de 30% !', 'Succès', {
+            positionClass: 'toast-bottom-right',
+            timeOut: 3000
+        });
+        document.getElementById('promo-popup').style.display = 'none';
+    });
+});
+
 </script>
-<!-- Inclure le script Toastr -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="{{ asset('js/front.js') }}"></script>
   </div>
   </div>
 </body>

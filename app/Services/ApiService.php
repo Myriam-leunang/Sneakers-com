@@ -13,13 +13,32 @@ class ApiService
         $this->baseUrl = 'http://54.37.12.181:1337/api';
     }
 
-    public function getProducts()
+    // Récupération des produits sur plusieurs pages
+    public function getProducts($pages = 10)
     {
-        $response = Http::get("{$this->baseUrl}/sneakers");
+        $allProducts = [];
 
-        return $response->json();
+        for ($page = 1; $page <= $pages; $page++) {
+            $response = Http::get("{$this->baseUrl}/sneakers", [
+                'pagination[page]' => $page,      
+                'pagination[pageSize]' => 25      
+            ]);
+
+            $products = $response->json();
+
+            if (isset($products['data'])) {
+                // Fusionner les produits de chaque page dans le tableau principal
+                $allProducts = array_merge($allProducts, $products['data']);
+            } else {
+                // Si la réponse n'est pas conforme ou s'il y a un problème, sortir de la boucle
+                break;
+            }
+        }
+
+        return $allProducts; // Retourner tous les produits récupérés
     }
 
+    // Récupérer un produit par son ID
     public function getProductById($id)
     {
         $response = Http::get("{$this->baseUrl}/sneakers/{$id}");

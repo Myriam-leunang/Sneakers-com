@@ -35,7 +35,7 @@
                     <p class="small text-muted mb-0">&copy;© 2021 Tous droits réservés.</p>
                 </div>
             <div class="col-md-6 text-center text-md-end">
-                <p class="small text-muted mb-0">SNEAKERS a été crée par <a class="text-white reset-anchor" href="#">EASY TECH</a></p>
+                <p class="small text-muted mb-0">SHOEZER a été crée par <a class="text-white reset-anchor" href="#">EASY TECH</a></p>
                 <!-- If you want to remove the backlink, please purchase the Attribution-Free License. See details in readme.txt or license.txt. Thanks!-->
             </div>
             </div>

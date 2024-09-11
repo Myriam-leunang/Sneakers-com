@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', [CartController::class, 'welcome']);
 });
 
 Route::get('/dashboard', function () {
@@ -28,12 +28,22 @@ Route::group(['middleware' => ['auth']], function () {
 
  
  Route::get('/detail', [CartController::class, 'detail']);
- Route::get('/checkout', [CartController::class, 'checkout']);
- Route::get('/dashboard', [ProductController::class, 'index']);
+ Route::get('/checkout', [PaymentController::class, 'index'])->name('checkout');
+ Route::get('/dashboard', [ProductController::class, 'index'])->name('products.index');
+ Route::get('/compte', [ProductController::class, 'compte']);
  Route::get('/detail/{id}', [ProductController::class, 'show'])->name('products.show');
  Route::get('/search', [ProductController::class, 'search'])->name('products.search');
  Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
  Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+ // Routes pour mettre à jour et supprimer des produits du panier
+ Route::post('/cart/update/{productId}', [CartController::class, 'updateCart'])->name('cart.update');
+ Route::post('/cart/remove/{productId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+ Route::get('/retour', [RetourController::class, 'index']);
+ Route::get('/retour', [RetourController::class, 'showRetourForm'])->name('retour.form');
+ Route::post('/retour', [RetourController::class, 'storeRetour'])->name('retour.store');
+ Route::post('/pay', [PaymentController::class, 'pay'])->name('pay');
+// Route pour créer un paiement, en passant le montant total
+ Route::get('/create-payment/{totalPrice}', [PaymentController::class, 'createPayment'])->name('payment.createPayment');
 
 });
 
