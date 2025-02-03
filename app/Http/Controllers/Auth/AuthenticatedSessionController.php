@@ -32,7 +32,24 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+    
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+    
+            if (Auth::user()->hasRole('admin')) {
+                return redirect()->route('secondadmin'); // Assure-toi que la route est correcte
+            }
+    
+            return redirect()->route('dashboard');
+        }
+    
+        return back()->withErrors([
+            'email' => 'Les informations d’identification ne correspondent pas.',
+        ]);
     }
 
     /**

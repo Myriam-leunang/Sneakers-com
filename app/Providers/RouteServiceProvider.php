@@ -60,4 +60,13 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
+
+    public static function redirectTo()
+{
+    if (auth()->check() && auth()->user()->hasRole('admin')) {
+        return '/admin';
+    }
+    return '/dashboard';
+}
+
 }
